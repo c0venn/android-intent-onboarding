@@ -1,6 +1,6 @@
 {
   "name": "android-intent-onboarding",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "android intent for onboarding",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -19,10 +19,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/c0venn/android-intent.git.git"
+    "url": "git+https://github.com/c0venn/android-intent-onboarding.git"
   },
   "bugs": {
-    "url": "https://github.com/c0venn/android-intent.git/issues"
+    "url": "https://github.com/c0venn/android-intent-onboarding.git/issues"
   },
   "keywords": [
     "capacitor",
@@ -74,7 +74,8 @@
       "src": "ios"
     },
     "android": {
-      "src": "android"
+      "src": "android",
+      "package": "com.recibopagos.plugins.onboarding"
     }
   }
 }

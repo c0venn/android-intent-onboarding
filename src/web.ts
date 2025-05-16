@@ -1,10 +1,13 @@
 import { WebPlugin } from '@capacitor/core';
+import type { OnboardingPlugin, SendIntentParams, SendIntentResult } from './definitions';
 
-import type { onboardingPlugin } from './definitions';
+export class OnboardingWeb extends WebPlugin implements OnboardingPlugin {
+  async sendIntent(options: SendIntentParams): Promise<SendIntentResult> {
+    console.log('Web sendIntent called with:', options);
 
-export class onboardingWeb extends WebPlugin implements onboardingPlugin {
-  async echo(options: { value: string }): Promise<{ value: string }> {
-    console.log('ECHO', options);
-    return options;
+    return {
+      estado: 0,
+      idpago: 0
+    };
   }
 }

@@ -1,10 +1,14 @@
+export interface SendIntentParams {
+  monto: number;
+  method: string;
+  tips: boolean;
+}
+
+export interface SendIntentResult {
+  estado: number;
+  idpago: number;
+}
+
 export interface OnboardingPlugin {
-  startActivityForResult(options: {
-    package: string;
-    class: string;
-    value: { [key: string]: any };
-  }): Promise<{
-    resultCode: number;
-    extras: { [key: string]: any };
-  }>;
+  sendIntent(options: SendIntentParams): Promise<SendIntentResult>;
 }

@@ -1,75 +1,96 @@
 package com.recibopagos.plugins.onboarding;
 
+import androidx.activity.result.ActivityResultRegistry;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResult;
+import androidx.lifecycle.LifecycleOwner;
+
 import android.content.Intent;
 import android.content.ComponentName;
-import android.os.Bundle;
-import com.getcapacitor.JSObject;
+import android.util.Log;
+
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import com.getcapacitor.JSObject;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
 @CapacitorPlugin(name = "onboarding")
 public class OnboardingPlugin extends Plugin {
 
-    private static final int REQUEST_CODE = 12345;
+    private static final String TAG = "OnboardingPlugin";
+
+    private ActivityResultLauncher<Intent> activityResultLauncher;
     private PluginCall savedCall;
 
-    @PluginMethod
-    public void startActivityForResult(PluginCall call) {
-        String packageName = call.getString("package");
-        String className = call.getString("class");
-        JSObject value = call.getObject("value", new JSObject());
+    @Override
+    public void load() {
+        super.load();
 
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName(packageName, className));
+        ActivityResultRegistry registry = getActivity().getActivityResultRegistry();
 
-        java.util.Iterator<String> keys = value.keys();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            try {
-                Object val = value.get(key);
-                if (val instanceof String) {
-                    intent.putExtra(key, (String) val);
-                } else if (val instanceof Integer) {
-                    intent.putExtra(key, (Integer) val);
-                } else if (val instanceof Boolean) {
-                    intent.putExtra(key, (Boolean) val);
-                } else if (val instanceof Double) {
-                    intent.putExtra(key, ((Double) val).doubleValue());
-                }
-            } catch (org.json.JSONException e) {
-                e.printStackTrace();
-                // Optionally, handle the error (e.g., skip this key or notify the JS side)
+        LifecycleOwner lifecycleOwner = (LifecycleOwner) getActivity();
+
+        activityResultLauncher = registry.register(
+                "onboarding_plugin_key",
+                lifecycleOwner,
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                handleActivityResult(result);
             }
         }
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        savedCall = call;
-        startActivityForResult(call, intent, REQUEST_CODE);
+        );
     }
 
-    @Override
-    protected void handleOnActivityResult(int requestCode, int resultCode, Intent data) {
-        super.handleOnActivityResult(requestCode, resultCode, data);
+    @PluginMethod
+    public void sendIntent(PluginCall call) {
+        savedCall = call;
+        saveCall(call);
 
-        if (requestCode == REQUEST_CODE && savedCall != null) {
-            JSObject result = new JSObject();
-            result.put("resultCode", resultCode);
+        int monto = call.getInt("monto", 0);
+        String method = call.getString("method", "");
+        boolean tips = call.getBoolean("tips", false);
 
-            if (data != null && data.getExtras() != null) {
-                Bundle extras = data.getExtras();
-                JSObject extrasObj = new JSObject();
-                for (String key : extras.keySet()) {
-                    Object val = extras.get(key);
-                    extrasObj.put(key, val != null ? val.toString() : null);
-                }
-                result.put("extras", extrasObj);
-            }
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.recibopagos.pos", "com.recibopagos.pos.view.activity.ActivitySplash"));
+        intent.setAction("com.recibopagos.pos.sibus-payment");
+        intent.putExtra("sibus_monto", monto);
+        intent.putExtra("sibus_payment_method", method);
+        intent.putExtra("sibus_tips", tips);
 
-            savedCall.resolve(result);
-            savedCall = null;
+        activityResultLauncher.launch(intent);
+        Log.d(TAG, "Launched activity for result");
+    }
+
+    private void handleActivityResult(ActivityResult result) {
+
+        if (savedCall == null) {
+            Log.w(TAG, "No saved PluginCall to resolve");
+            return;
         }
+
+        int resultCode = result.getResultCode();
+        Intent data = result.getData();
+
+        if (resultCode == -1 && data != null) {
+            String idPago = data.getStringExtra("idpago");
+            int estado = data.getIntExtra("estado", 0);
+
+            JSObject ret = new JSObject();
+            ret.put("idpago", idPago);
+            ret.put("estado", estado);
+
+            savedCall.resolve(ret);
+        } else if (resultCode == getActivity().RESULT_CANCELED) {
+            savedCall.reject("User canceled the operation");
+        } else {
+            savedCall.reject("Unknown result from activity");
+        }
+
+        savedCall = null;
     }
 }
