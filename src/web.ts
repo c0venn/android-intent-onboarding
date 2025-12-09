@@ -6,8 +6,8 @@ export class OnboardingWeb extends WebPlugin implements OnboardingPlugin {
     console.log('Web sendIntent called with:', options);
 
     return {
-      estado: 0,
-      idpago: 0
+      status_paid: '',
+      order_id: ''
     };
   }
 }

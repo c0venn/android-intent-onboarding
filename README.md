@@ -41,18 +41,20 @@ sendIntent(options: SendIntentParams) => Promise<SendIntentResult>
 
 #### SendIntentResult
 
-| Prop         | Type                |
-| ------------ | ------------------- |
-| **`estado`** | <code>number</code> |
-| **`idpago`** | <code>number</code> |
+| Prop              | Type                |
+| ----------------- | ------------------- |
+| **`status_paid`** | <code>string</code> |
+| **`order_id`**    | <code>string</code> |
 
 
 #### SendIntentParams
 
-| Prop         | Type                 |
-| ------------ | -------------------- |
-| **`monto`**  | <code>number</code>  |
-| **`method`** | <code>string</code>  |
-| **`tips`**   | <code>boolean</code> |
+| Prop           | Type                |
+| -------------- | ------------------- |
+| **`orden_id`** | <code>string</code> |
+| **`monto`**    | <code>number</code> |
+| **`st`**       | <code>string</code> |
+| **`channel`**  | <code>string</code> |
+| **`tipo`**     | <code>string</code> |
 
 </docgen-api>
