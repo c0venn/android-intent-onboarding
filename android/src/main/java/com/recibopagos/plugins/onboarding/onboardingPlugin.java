@@ -81,14 +81,14 @@ public class OnboardingPlugin extends Plugin {
         Intent data = result.getData();
 
         if (resultCode == -1 && data != null) {
-            String CLIENT_ORDER_ID = data.getStringExtra("CLIENT_ORDER_ID");
-            String CLIENT_STATUS = data.getStringExtra("CLIENT_STATUS");
-            String PAYMENT_RESULT_STATE = data.getStringExtra("PAYMENT_RESULT_STATE");
+            String clientOrderId = data.getStringExtra("clientOrderId");
+            String clientStatus = data.getStringExtra("clientStatus");
+            String estado = data.getStringExtra("estado");
 
             JSObject ret = new JSObject();
-            ret.put("CLIENT_ORDER_ID", CLIENT_ORDER_ID);
-            ret.put("CLIENT_STATUS", CLIENT_STATUS);
-            ret.put("PAYMENT_RESULT_STATE", PAYMENT_RESULT_STATE);
+            ret.put("clientOrderId", clientOrderId);
+            ret.put("clientStatus", clientStatus);
+            ret.put("estado", estado);
 
             savedCall.resolve(ret);
         } else if (resultCode == getActivity().RESULT_CANCELED) {
