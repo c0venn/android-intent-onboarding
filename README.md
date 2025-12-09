@@ -41,10 +41,11 @@ sendIntent(options: SendIntentParams) => Promise<SendIntentResult>
 
 #### SendIntentResult
 
-| Prop              | Type                |
-| ----------------- | ------------------- |
-| **`status_paid`** | <code>string</code> |
-| **`order_id`**    | <code>string</code> |
+| Prop                       | Type                |
+| -------------------------- | ------------------- |
+| **`CLIENT_ORDER_ID`**      | <code>string</code> |
+| **`CLIENT_STATUS`**        | <code>string</code> |
+| **`PAYMENT_RESULT_STATE`** | <code>string</code> |
 
 
 #### SendIntentParams
