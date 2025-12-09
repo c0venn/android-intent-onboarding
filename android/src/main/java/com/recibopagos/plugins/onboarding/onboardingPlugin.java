@@ -60,9 +60,11 @@ public class OnboardingPlugin extends Plugin {
         Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.recibopagos.pos", "com.recibopagos.pos.view.activity.ActivitySplash"));
         intent.setAction("com.recibopagos.pos.sibus-payment");
-        intent.putExtra("sibus_monto", monto);
-        intent.putExtra("sibus_payment_method", method);
-        intent.putExtra("sibus_tips", tips);
+        intent.putExtra("monto", monto);
+        intent.putExtra("orden_id", orden_id);
+        intent.putExtra("st", st);
+        intent.putExtra("channel", channel);
+        intent.putExtra("tipo", tipo);
 
         activityResultLauncher.launch(intent);
         Log.d(TAG, "Launched activity for result");
