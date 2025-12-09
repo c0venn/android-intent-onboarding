@@ -81,13 +81,13 @@ public class OnboardingPlugin extends Plugin {
         Intent data = result.getData();
 
         if (resultCode == -1 && data != null) {
-            String clientOrderId = data.getStringExtra("clientOrderId");
-            String clientStatus = data.getStringExtra("clientStatus");
+            String order_id = data.getStringExtra("order_id");
+            String status_paid = data.getStringExtra("status_paid");
             String estado = data.getStringExtra("estado");
 
             JSObject ret = new JSObject();
-            ret.put("clientOrderId", clientOrderId);
-            ret.put("clientStatus", clientStatus);
+            ret.put("order_id", order_id);
+            ret.put("status_paid", status_paid);
             ret.put("estado", estado);
 
             savedCall.resolve(ret);

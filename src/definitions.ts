@@ -7,8 +7,8 @@ export interface SendIntentParams {
 }
 
 export interface SendIntentResult {
-  clientOrderId: string;
-  clientStatus: string;
+  order_id: string;
+  status_paid: string;
   estado: string;
 }
 
