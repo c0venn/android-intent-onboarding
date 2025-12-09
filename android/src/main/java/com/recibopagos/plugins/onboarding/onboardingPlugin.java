@@ -52,8 +52,10 @@ public class OnboardingPlugin extends Plugin {
         saveCall(call);
 
         int monto = call.getInt("monto", 0);
-        String method = call.getString("method", "");
-        boolean tips = call.getBoolean("tips", false);
+        String orden_id = call.getString("orden_id", "");
+        String st = call.getString("st", "");
+        String channel = call.getString("channel", "");
+        String tipo = call.getString("tipo", "");
 
         Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.recibopagos.pos", "com.recibopagos.pos.view.activity.ActivitySplash"));
@@ -77,12 +79,12 @@ public class OnboardingPlugin extends Plugin {
         Intent data = result.getData();
 
         if (resultCode == -1 && data != null) {
-            String idPago = data.getStringExtra("idpago");
-            int estado = data.getIntExtra("estado", 0);
+            String order_id = data.getStringExtra("order_id");
+            String status_paid = data.getStringExtra("status_paid");
 
             JSObject ret = new JSObject();
-            ret.put("idpago", idPago);
-            ret.put("estado", estado);
+            ret.put("order_id", order_id);
+            ret.put("status_paid", status_paid);
 
             savedCall.resolve(ret);
         } else if (resultCode == getActivity().RESULT_CANCELED) {

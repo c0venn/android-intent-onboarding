@@ -1,12 +1,14 @@
 export interface SendIntentParams {
+  orden_id: string;
   monto: number;
-  method: string;
-  tips: boolean;
+  st: string;
+  channel: string;
+  tipo: string;
 }
 
 export interface SendIntentResult {
-  estado: number;
-  idpago: number;
+  status_paid: string;
+  order_id: string;
 }
 
 export interface OnboardingPlugin {
