@@ -7,8 +7,9 @@ export interface SendIntentParams {
 }
 
 export interface SendIntentResult {
-  status_paid: string;
-  order_id: string;
+  CLIENT_ORDER_ID: string;
+  CLIENT_STATUS: string;
+  PAYMENT_RESULT_STATE: string;
 }
 
 export interface OnboardingPlugin {
