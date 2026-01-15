@@ -70,6 +70,32 @@ public class OnboardingPlugin extends Plugin {
         Log.d(TAG, "Launched activity for result");
     }
 
+    @PluginMethod
+    public void OpenPos(PluginCall call) {
+        savedCall = call;
+        saveCall(call);
+
+        int monto = call.getInt("monto", 0);
+        String orden_id = call.getString("orden_id", "");
+        String st = call.getString("st", "");
+        String channel = call.getString("channel", "");
+        String tipo = call.getString("tipo", "");
+        boolean exit_wallet = call.getBoolean("exit_wallet", false);
+
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.recibopagos.pos", "com.recibopagos.pos.view.activity.ActivitySplash"));
+        intent.setAction("com.recibopagos.pos.sibus-payment");
+        intent.putExtra("monto", monto);
+        intent.putExtra("orden_id", orden_id);
+        intent.putExtra("st", st);
+        intent.putExtra("channel", channel);
+        intent.putExtra("tipo", tipo);
+        intent.putExtra("exit_wallet", exit_wallet);
+
+        activityResultLauncher.launch(intent);
+        Log.d(TAG, "Launched OpenPos activity for result with exit_wallet=" + exit_wallet);
+    }
+
     private void handleActivityResult(ActivityResult result) {
 
         if (savedCall == null) {

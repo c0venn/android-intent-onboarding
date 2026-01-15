@@ -14,4 +14,5 @@ export interface SendIntentResult {
 
 export interface OnboardingPlugin {
   sendIntent(options: SendIntentParams): Promise<SendIntentResult>;
+  OpenPos(options: SendIntentParams & { exit_wallet: boolean }): Promise<SendIntentResult>;
 }

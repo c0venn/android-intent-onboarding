@@ -11,4 +11,14 @@ export class OnboardingWeb extends WebPlugin implements OnboardingPlugin {
       estado: ''
     };
   }
+
+  async OpenPos(options: SendIntentParams & { exit_wallet: boolean }): Promise<SendIntentResult> {
+    console.log('Web OpenPos called with:', options);
+
+    return {
+      order_id: '',
+      status_paid: '',
+      estado: ''
+    };
+  }
 }

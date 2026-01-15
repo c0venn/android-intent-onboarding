@@ -14,6 +14,7 @@ npx cap sync
 <docgen-index>
 
 * [`sendIntent(...)`](#sendintent)
+* [`OpenPos(...)`](#openpos)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -30,6 +31,21 @@ sendIntent(options: SendIntentParams) => Promise<SendIntentResult>
 | Param         | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
 | **`options`** | <code><a href="#sendintentparams">SendIntentParams</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#sendintentresult">SendIntentResult</a>&gt;</code>
+
+--------------------
+
+
+### OpenPos(...)
+
+```typescript
+OpenPos(options: SendIntentParams & { exit_wallet: boolean; }) => Promise<SendIntentResult>
+```
+
+| Param         | Type                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#sendintentparams">SendIntentParams</a> & { exit_wallet: boolean; }</code> |
 
 **Returns:** <code>Promise&lt;<a href="#sendintentresult">SendIntentResult</a>&gt;</code>
 
